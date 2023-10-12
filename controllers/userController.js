@@ -5,7 +5,7 @@ import { sendCookie } from "../utils/features.js";
 
 class Controllerfile {
   // get all user
-  static getAllUser = async (req, res) => {
+  static getAllUser = async (req, res,next) => {
     try {
     } catch (error) {
       console.log(error);
@@ -13,7 +13,7 @@ class Controllerfile {
   };
 
   //   create user/ register
-  static createUser = async (req, res) => {
+  static createUser = async (req, res,next) => {
     try {
       const { name, email, password } = req.body;
 
@@ -41,7 +41,7 @@ class Controllerfile {
 
   // for login
 
-  static loginUser = async (req, res) => {
+  static loginUser = async (req, res,next) => {
     try {
       const { email, password } = req.body;
 
@@ -70,7 +70,7 @@ class Controllerfile {
 
   // logout 
 
-  static logoutUser= async(req,res)=>{
+  static logoutUser= async(req,res,next)=>{
 
     try {
 
@@ -91,7 +91,7 @@ class Controllerfile {
 
   // get user details  by Id
 
-  static getUserById = async (req, res) => {
+  static getUserById = async (req, res,next) => {
     try {
       res.status(200).json({
         success: true,
