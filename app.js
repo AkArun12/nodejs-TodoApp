@@ -3,6 +3,7 @@ import  taskRouter from './routes/task.js'
 
 import userRouter from './routes/web.js'
 import cookieParser from "cookie-parser";
+import { errorMiddleware } from "./middlewares/error.js";
 
 const app = express();
 
@@ -17,16 +18,8 @@ app.use("/api/v1/users",userRouter)
 app.use("/api/v1/task",taskRouter)
 
 
-// error middleware
-
-
-
-
-
-
-
-
-
+// uisng error middleware
+app.use(errorMiddleware)
 
 
 

@@ -1,3 +1,4 @@
+import ErrorHandler from "../middlewares/error.js";
 import { Task } from "../models/Task.js";
 class Taskcontroller {
 
@@ -16,7 +17,7 @@ class Taskcontroller {
         message: "Task added successfully",
       });
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   };
 
@@ -37,7 +38,7 @@ static getmyTask=async (req,res,next)=>{
 
         
     } catch (error) {
-        console.log(error)
+        next(error)
         
     }
 }
@@ -51,7 +52,8 @@ static updatemyTask=async (req,res,next)=>{
       const {id} =req.params; 
       const{title,description}=req.body;
       const task =await Task.findByIdAndUpdate(id,{$set:{title,description}});
-         if (!task) return next(new Error("This is error"));
+               
+       if (!task) return next(new ErrorHandler("Task not found", 404));
       task.isCompleted=!task.isCompleted;
       await task.save()
 
@@ -64,7 +66,7 @@ static updatemyTask=async (req,res,next)=>{
 
         
     } catch (error) {
-        console.log(error)
+        next(error)
         
     }
 }
@@ -77,7 +79,7 @@ static deletemyTask=async (req,res,next)=>{
        const { id } = req.params;
        const task = await Task.findById(id);
       
-       if(!task) return next(new Error("This is error"))
+       if(!task) return next(new ErrorHandler("Task not found", 404));
        await task.deleteOne();
 
        
@@ -89,7 +91,7 @@ static deletemyTask=async (req,res,next)=>{
 
         
     } catch (error) {
-        console.log(error)
+        next(error)
         
     }
 }

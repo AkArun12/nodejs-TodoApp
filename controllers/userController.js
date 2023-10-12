@@ -1,11 +1,11 @@
 import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { sendCookie } from "../utils/features.js";
+import ErrorHandler from "../middlewares/error.js";
 
 class Controllerfile {
   // get all user
-  static getAllUser = async (req, res,next) => {
+  static getAllUser = async (req, res, next) => {
     try {
     } catch (error) {
       console.log(error);
@@ -13,16 +13,14 @@ class Controllerfile {
   };
 
   //   create user/ register
-  static createUser = async (req, res,next) => {
+  static createUser = async (req, res, next) => {
     try {
       const { name, email, password } = req.body;
 
       let user = await User.findOne({ email });
+
       if (user) {
-        return res.status(404).json({
-          success: false,
-          message: "user Already exist",
-        });
+        return next(new ErrorHandler("User already exist", 404));
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -35,70 +33,59 @@ class Controllerfile {
         sendCookie(user, res, "Registered successfully", 201);
       }
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   };
 
   // for login
 
-  static loginUser = async (req, res,next) => {
+  static loginUser = async (req, res, next) => {
     try {
       const { email, password } = req.body;
 
       const user = await User.findOne({ email }).select("+password");
+
       if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "Invalid email or password",
-        });
+        return next(new ErrorHandler("invalid email or password", 404));
       } else {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-          return res.status(404).json({
-            success: false,
-            message: "Invalid email or password",
-          });
+          return next(new ErrorHandler("invalid email or password", 404));
         } else {
           sendCookie(user, res, `welcome back ${user.name}`, 200);
         }
       }
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   };
 
+  // logout
 
-  // logout 
-
-  static logoutUser= async(req,res,next)=>{
-
+  static logoutUser = async (req, res, next) => {
     try {
-
-      res.status(200).cookie("token","",{expires:new Date(Date.now())}).json({
-        success: true,
-        user: req.user,
-    })
-
-      
+      res
+        .status(200)
+        .cookie("token", "", { expires: new Date(Date.now()) })
+        .json({
+          success: true,
+          user: req.user,
+        });
     } catch (error) {
-      console.log(error)
-      
+    next(error);
     }
-  }
-
-
-
+  };
 
   // get user details  by Id
 
-  static getUserById = async (req, res,next) => {
+  static getUserById = async (req, res, next) => {
     try {
       res.status(200).json({
         success: true,
         user: req.user,
       });
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   };
 }
