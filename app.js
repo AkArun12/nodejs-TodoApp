@@ -1,6 +1,7 @@
 import express from "express";
+import  taskRouter from './routes/task.js'
 
-import web from './routes/web.js'
+import userRouter from './routes/web.js'
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -12,7 +13,8 @@ app.use(express.json());
 
 app.use(cookieParser())
 //using  routes
-app.use("/api/v1/users",web)
+app.use("/api/v1/users",userRouter)
+app.use("/api/v1/task",taskRouter)
 
 
 
