@@ -51,12 +51,7 @@ static updatemyTask=async (req,res,next)=>{
       const {id} =req.params; 
       const{title,description}=req.body;
       const task =await Task.findByIdAndUpdate(id,{$set:{title,description}});
-         if (!task)
-           return res.status(404).json({
-             success: false,
-             message: "Invalid id",
-           });
-      
+         if (!task) return next(new Error("This is error"));
       task.isCompleted=!task.isCompleted;
       await task.save()
 
@@ -82,10 +77,7 @@ static deletemyTask=async (req,res,next)=>{
        const { id } = req.params;
        const task = await Task.findById(id);
       
-       if(!task) return res.status(404).json({
-        success:false,
-        message:"Invalid id"
-       })
+       if(!task) return next(new Error("This is error"))
        await task.deleteOne();
 
        
