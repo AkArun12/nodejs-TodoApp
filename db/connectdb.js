@@ -6,8 +6,9 @@ const connectDB = async (DATABASE_URL) => {
       dbName: "backendapi",
     };
 
-    await mongoose.connect(DATABASE_URL, DB_OPTIONS);
-    console.log("Database Connected successfully");
+    await mongoose.connect(DATABASE_URL, DB_OPTIONS)
+    .then((c)=>  console.log(`Database Connected successfully with ${c.connection.host}` ));
+  
   } catch (err) {
     console.log(err);
   }
