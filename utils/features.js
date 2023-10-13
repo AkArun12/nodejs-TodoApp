@@ -1,3 +1,4 @@
+// setting cookies
 import jwt from "jsonwebtoken"
 
 export const sendCookie=(user,res,message,statusCode=200)=>{
@@ -7,6 +8,8 @@ export const sendCookie=(user,res,message,statusCode=200)=>{
         .cookie("token", token, {
           httpOnly: true,
           maxAge: 15 * 60 * 1000,
+          sameSite:process.NODE_ENV==="Development"?"lax":"none",
+          secure:process.NODE_ENV==="Development"?false:true
         })
         .json({
           success: true,

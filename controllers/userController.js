@@ -66,7 +66,11 @@ class Controllerfile {
     try {
       res
         .status(200)
-        .cookie("token", "", { expires: new Date(Date.now()) })
+        .cookie("token", "", {
+          expires: new Date(Date.now()),
+          sameSite: process.NODE_ENV === "Development" ? "lax" : "none",
+          secure: process.NODE_ENV === "Development" ? false : true,
+        })
         .json({
           success: true,
           user: req.user,
