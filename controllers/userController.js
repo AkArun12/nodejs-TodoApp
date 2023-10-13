@@ -4,14 +4,7 @@ import { sendCookie } from "../utils/features.js";
 import ErrorHandler from "../middlewares/error.js";
 
 class Controllerfile {
-  // get all user
-  static getAllUser = async (req, res, next) => {
-    try {
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  
   //   create user/ register
   static createUser = async (req, res, next) => {
     try {
@@ -82,8 +75,11 @@ class Controllerfile {
 
   // get user details  by Id
 
-  static getUserById = async (req, res, next) => {
+  static getUserById = async (req, res) => {
     try {
+      const { email } = req.body;
+
+      const user = await User.findOne({ email });
       res.status(200).json({
         success: true,
         user: req.user,

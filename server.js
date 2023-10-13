@@ -2,7 +2,7 @@ import app from "./app.js";
 
 import connectDB from "./db/connectdb.js";
 
-const DATABASE_URL = process.env.MONGO_URI;
+const DATABASE_URL = process.env.MONGO_URL;
 
 // Connecting database
 connectDB(DATABASE_URL);

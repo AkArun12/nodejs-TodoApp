@@ -1,5 +1,5 @@
 import express from 'express';
-import { User } from '../models/User.js';
+
 
 import Controllerfile from '../controllers/userController.js';
 import { isAuthenticated } from '../middlewares/auth.js';
@@ -13,8 +13,7 @@ router.get("/", (req, res) => {
 });
 
 
-// Find all users
-router.get("/all",Controllerfile.getAllUser)
+
 
 
 // Create user
