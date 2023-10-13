@@ -9,6 +9,6 @@ connectDB(DATABASE_URL);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(process.env.NODE_ENV);
+ 
   console.log(`Server started on port http://localhost:${PORT} `);
 });
