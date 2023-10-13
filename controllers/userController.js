@@ -61,8 +61,8 @@ class Controllerfile {
         .status(200)
         .cookie("token", "", {
           expires: new Date(Date.now()),
-          sameSite: process.NODE_ENV === "Development" ? "lax" : "none",
-          secure: process.NODE_ENV === "Development" ? false : true,
+          sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+          secure: process.env.NODE_ENV === "Development" ? false : true,
         })
         .json({
           success: true,

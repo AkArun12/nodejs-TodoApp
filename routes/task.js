@@ -6,7 +6,7 @@ import {isAuthenticated} from '../middlewares/auth.js'
 const router=express.Router();
 
 router.post("/new",isAuthenticated, Taskcontroller.newTask)
-router.post("/my",isAuthenticated, Taskcontroller.getmyTask)
+router.get("/my",isAuthenticated, Taskcontroller.getmyTask)
 
 
 router.route("/:id").put(isAuthenticated,Taskcontroller.updatemyTask).delete(isAuthenticated,Taskcontroller.deletemyTask)
